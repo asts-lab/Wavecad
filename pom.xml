@@ -5,9 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ia61</groupId>
-  <artifactId>MatX</artifactId>
-  <version>1.0</version>
-
+  <artifactId>Wavecad</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
   <properties>
     <junit.version>4.12</junit.version>
