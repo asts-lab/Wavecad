@@ -1,33 +1,25 @@
 package com.ia61.wavecad.ui;
 
-import com.ia61.wavecad.model.ui.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TreeView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class RootLayout extends BorderPane{
-
-	@FXML
-	BorderPane borderPane;
-
+public class RootLayout extends AnchorPane{
 
 	@FXML SplitPane base_pane;
 	@FXML AnchorPane right_pane;
 	@FXML VBox left_pane;
-	@FXML TreeView<String> elementsTree;
 
 	private DragIcon mDragOverIcon = null;
 	
@@ -44,7 +36,7 @@ public class RootLayout extends BorderPane{
 		fxmlLoader.setRoot(this); 
 		fxmlLoader.setController(this);
 		
-		try {
+		try { 
 			fxmlLoader.load();
         
 		} catch (IOException exception) {
@@ -63,15 +55,16 @@ public class RootLayout extends BorderPane{
 		mDragOverIcon.setVisible(false);
 		mDragOverIcon.setOpacity(0.65);
 		getChildren().add(mDragOverIcon);
-
+		
 		//populate left pane with multiple colored icons for testing
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 3; i++) {
 			
 			DragIcon icn = new DragIcon();
 			
 			addDragDetection(icn);
-			
-			icn.setType(DragIconType.values()[i]);
+
+//			icn.setType(DragIconType.common);
+			icn.setUnitName(UnitName.values()[i].getName());
 			left_pane.getChildren().add(icn);
 		}
 		
@@ -94,13 +87,14 @@ public class RootLayout extends BorderPane{
 				DragIcon icn = (DragIcon) event.getSource();
 				
 				//begin drag ops
-				mDragOverIcon.setType(icn.getType());
+//				mDragOverIcon.setType(icn.getType());
+				mDragOverIcon.setUnitName(icn.getUnitName());
 				mDragOverIcon.relocateToPoint(new Point2D (event.getSceneX(), event.getSceneY()));
             
 				ClipboardContent content = new ClipboardContent();
 				DragContainer container = new DragContainer();
 				
-				container.addData ("type", mDragOverIcon.getType().toString());
+				container.addData("type", mDragOverIcon.getUnitName());
 				content.put(DragContainer.AddNode, container);
 
 				mDragOverIcon.startDragAndDrop (TransferMode.ANY).setContent(content);
@@ -158,7 +152,7 @@ public class RootLayout extends BorderPane{
 			@Override
 			public void handle(DragEvent event) {
 				
-				DragContainer container = 
+				DragContainer container =
 						(DragContainer) event.getDragboard().getContent(DragContainer.AddNode);
 				
 				container.addData("scene_coords", 
@@ -184,28 +178,28 @@ public class RootLayout extends BorderPane{
 				mDragOverIcon.setVisible(false);
 				
 				//Create node drag operation
-				DragContainer container = 
+				DragContainer container =
 						(DragContainer) event.getDragboard().getContent(DragContainer.AddNode);
 				
 				if (container != null) {
 					if (container.getValue("scene_coords") != null) {
 					
-						if (container.getValue("type").equals(DragIconType.cubic_curve.toString())) {
-							CubicCurveDemo curve = new CubicCurveDemo();
-							
-							right_pane.getChildren().add(curve);
-							
-							Point2D cursorPoint = container.getValue("scene_coords");
-
-							curve.relocateToPoint(
-									new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32)
-									);							
-						}
-						else {
+//						if (container.getValue("type").equals(DragIconType.cubic_curve.toString())) {
+//							CubicCurveDemo curve = new CubicCurveDemo();
+//
+//							right_pane.getChildren().add(curve);
+//
+//							Point2D cursorPoint = container.getValue("scene_coords");
+//
+//							curve.relocateToPoint(
+//									new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32)
+//									);
+//						}
+//						else {
 							
 							DraggableNode node = new DraggableNode();
 							
-							node.setType(DragIconType.valueOf(container.getValue("type")));
+							node.setTitle_bar(container.getValue("type"));
 							right_pane.getChildren().add(node);
 	
 							Point2D cursorPoint = container.getValue("scene_coords");
@@ -213,7 +207,7 @@ public class RootLayout extends BorderPane{
 							node.relocateToPoint(
 									new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32)
 									);
-						}
+//						}
 					}
 				}
 				/*

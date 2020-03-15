@@ -1,8 +1,9 @@
-package com.ia61.wavecad.model.ui;
+package com.ia61.wavecad.ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.CubicCurve;
@@ -12,6 +13,7 @@ import java.io.IOException;
 public class DragIcon extends AnchorPane{
 	
 	@FXML AnchorPane root_pane;
+	@FXML Label unit_name;
 
 	private DragIconType mType = null;
 	
@@ -46,10 +48,18 @@ public class DragIcon extends AnchorPane{
 				(int) (localCoords.getY() - (getBoundsInLocal().getHeight() / 2))
 			);
 	}
+
+	public String getUnitName() {
+		return unit_name.getText();
+	}
+
+	public void setUnitName(String unitName) {
+		this.unit_name.setText(unitName);
+	}
+
+	public DragIconType getType() { return mType; }
 	
-	public DragIconType getType () { return mType; }
-	
-	public void setType (DragIconType type) {
+	public void setType(DragIconType type) {
 		
 		mType = type;
 		
@@ -89,7 +99,7 @@ public class DragIcon extends AnchorPane{
 //
 //			//r//oot_pane.
 //			getChildren().add(pane);
-			
+//
 //		break;
 		
 		case blue:

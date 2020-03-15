@@ -10,17 +10,9 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-//  @Override
-//  public void start(Stage primaryStage) throws Exception {
-//    Parent root = FXMLLoader.load(ClassLoader.getSystemClassLoader().getResource("sample.fxml"));
-//    primaryStage.setTitle("Hello World");
-//    primaryStage.setScene(new Scene(root, 300, 275));
-//    primaryStage.show();
-//  }
 
   @Override
   public void start(Stage primaryStage) {
-//    BorderPane root = new BorderPane();
 
     try {
       Parent root = FXMLLoader.load(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("RootLayout.fxml")));
@@ -33,7 +25,6 @@ public class Main extends Application {
       e.printStackTrace();
     }
 
-    //root.setCenter(new RootLayout());
   }
 
 
